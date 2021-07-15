@@ -111,8 +111,9 @@
                         </div>
 
                         <div class="card-body">
-                            <table id="currencyTable" class="table">
-                                <thead style="background-color: #2b2b2b; color: #b7f5c4">
+                            @if($currencies->count() !=0)
+                                <table id="currencyTable" class="table">
+                                    <thead style="background-color: #2b2b2b; color: #b7f5c4">
                                     <tr>
                                         <th scope="col" >#</th>
                                         <th scope="col" >Currency Name</th>
@@ -121,35 +122,38 @@
                                         <th scope="col">Primary</th>
                                         <th scope="col">Action</th>
                                     </tr>
-                                </thead>
+                                    </thead>
 
-                                <tbody>
-                                            @foreach($currencies as $currency)
-                                                <tr>
-                                                    <td>{{$currency->id}}</td>
-                                                    <td>{{$currency->name}}</td>
-                                                    <td>{{$currency->code}}</td>
-                                                    <td>{{$currency->decimal_numbers}}</td>
-                                                    <td>{{$currency->is_primary==0?'false':'true'}}</td>
-                                                    <td>
-                                                        <a href="{{ route('currencies.edit', $currency->id) }}"
-                                                           class="btn btn-info">Edit</a>
-                                                        <!-- start of form -->
-                                                        <form action="{{ route('currencies.destroy', $currency->id) }}" method="post"
-                                                              style="display: inline-block">
-                                                            {{ csrf_field() }}
-                                                            {{ method_field('delete') }}
-                                                            <button type="submit" class="btn btn-danger delete">Delete</button>
-                                                        </form>
-                                                        <!-- end of form -->
-                                                    </td>
-                                                </tr>
-                                            @endforeach
+                                    <tbody>
+                                    @foreach($currencies as $currency)
+                                        <tr>
+                                            <td>{{$currency->id}}</td>
+                                            <td>{{$currency->name}}</td>
+                                            <td>{{$currency->code}}</td>
+                                            <td>{{$currency->decimal_numbers}}</td>
+                                            <td>{{$currency->is_primary==0?'false':'true'}}</td>
+                                            <td>
+                                                <a href="{{ route('currencies.edit', $currency->id) }}"
+                                                   class="btn btn-info">Edit</a>
+                                                <!-- start of form -->
+                                                <form action="{{ route('currencies.destroy', $currency->id) }}" method="post"
+                                                      style="display: inline-block">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('delete') }}
+                                                    <button type="submit" class="btn btn-danger delete">Delete</button>
+                                                </form>
+                                                <!-- end of form -->
+                                            </td>
+                                        </tr>
+                                    @endforeach
 
 
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
 
+                            @else
+                                <h3>No Data</h3>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -188,8 +192,8 @@
                    {
                        $("#currencyTable tbody").prepend('<tr><td>'+ response.id +'</td><td>'+ response.name +'</td><td>'+ response.code +'</td><td>'+ response.decimal_numbers +'</td><td>'+ response.is_primary +'</td>' +
                             '<td>' +
-                           '<a href="{{ route('currencies.edit', $currency->id) }}"class="btn btn-info">Edit</a> '+
-                       '<form action="{{ route('currencies.destroy', $currency->id) }}" method="post" style="display: inline-block">'+
+                           '<a href="currencies/edit/'+response.id+'"class="btn btn-info">Edit</a> '+
+                       '<form action="currencies/'+response.id+'" method="post" style="display: inline-block">'+
                            ' {{ csrf_field() }}{{ method_field('delete') }}'+
                        '<button type="submit" class="btn btn-danger delete">Delete</button> </form>' +
                             '</td>' +
